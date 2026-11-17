@@ -3,11 +3,10 @@ export const site = {
   tagline: "Every new tab, a blank page",
   description:
     "Papr turns your browser's new tab into a quiet, instant notepad. No account, no cloud. Your notes stay on your device.",
-  // TODO: replace with the production domain
-  url: "https://papr.app",
+  url: "https://papr-landing.vercel.app",
   // Polar checkout (see src/app/checkout/route.ts)
   checkoutUrl: "/checkout",
-  price: 10,
+  price: 5,
   version: "1.5",
   social: { linkedin: "https://www.linkedin.com/in/muhammed-arshaq/" },
 };

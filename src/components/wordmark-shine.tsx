@@ -23,8 +23,11 @@ export function WordmarkShine({ text }: { text: string }) {
       el.style.setProperty("--mx", `${x}px`);
       el.style.setProperty("--my", `${y}px`);
     };
+    // The gradient is painted inside the text span (centered, narrower than the row),
+    // so measure the pointer against that span, not the full-width container.
+    const word = el.querySelector<HTMLElement>(".wf-mark__shine") ?? el;
     const move = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
+      const r = word.getBoundingClientRect();
       x = e.clientX - r.left;
       y = e.clientY - r.top;
       el.style.setProperty("--shine", "1");

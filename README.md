@@ -10,11 +10,11 @@ npm run dev
 
 ## Selling with Polar
 
-Papr is sold as a **one-time $10 purchase**. Polar is the merchant of record: it runs checkout,
+Papr is sold as a **one-time $5 purchase**. Polar is the merchant of record: it runs checkout,
 tax, receipts and delivers the download.
 
 1. In Polar (start in the **sandbox**: https://sandbox.polar.sh), create a product:
-   - Name `Papr`, **one-time** price **$10**.
+   - Name `Papr`, **one-time** price **$5**.
    - Add a **File Downloads** benefit and upload the extension zip (`papr.zip`, the `extension/` folder).
 2. Settings → Developers → create an **organization access token**.
 3. Fill `.env.local`:

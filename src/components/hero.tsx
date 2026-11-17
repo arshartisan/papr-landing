@@ -41,7 +41,7 @@ export function Hero() {
           variants={item}
           initial="hidden"
           animate="show"
-          className="display mt-7 max-w-[13ch] text-[clamp(2.4rem,5.6vw,4.25rem)]"
+          className="display mt-7 max-w-[13ch] text-[clamp(2.6rem,6.4vw,5rem)]"
         >
           Every new tab, <span className="serif-accent text-mist">a blank page.</span>
         </motion.h1>
