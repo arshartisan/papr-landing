@@ -5,7 +5,7 @@ import { splitPrice } from "@/lib/format-price";
 import { motion } from "motion/react";
 import { plan } from "@/lib/pricing";
 import { site } from "@/lib/site";
-import { ArrowUpRight, Check } from "./icons";
+import { ArrowUpRight, Check, Polar } from "./icons";
 import { SectionHead } from "./reveal";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -68,7 +68,13 @@ export function Pricing() {
               {plan.cta}
               <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
-            <p className="mt-4 text-center text-[12.5px] text-fog">Instant download · Secure checkout by Polar</p>
+            <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-[12.5px] text-fog">
+              Instant download · Secure checkout by
+              <span className="inline-flex items-center gap-1 text-snow/80">
+                <Polar className="size-3.5" />
+                Polar
+              </span>
+            </p>
           </div>
 
           {/* included */}
