@@ -7,7 +7,7 @@ export const site = {
   url: "https://papr.app",
   // Polar checkout (see src/app/checkout/route.ts)
   checkoutUrl: "/checkout",
-  price: 20,
+  price: 10,
   version: "1.5",
   social: { linkedin: "https://www.linkedin.com/in/muhammed-arshaq/" },
 };

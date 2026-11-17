@@ -1,4 +1,5 @@
 import { Logo } from "./logo";
+import { WordmarkShine } from "./wordmark-shine";
 import { Apple, ArrowUpRight, Windows } from "./icons";
 import { nav, site } from "@/lib/site";
 
@@ -75,11 +76,7 @@ export function Footer({ onDark = false }: { onDark?: boolean }) {
         </div>
 
         {/* giant wordmark, cropped by the panel edge */}
-        <div aria-hidden="true" className="wf-mark relative select-none">
-          <span className="wf-mark__glow">papr</span>
-          <span className="wf-mark__fill">papr</span>
-          <span className="wf-mark__sweep">papr</span>
-        </div>
+        <WordmarkShine text="papr" />
       </div>
     </footer>
   );

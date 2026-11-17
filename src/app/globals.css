@@ -421,6 +421,31 @@ body {
   animation: wf-sweep 8s ease-in-out 1s infinite;
   background-position: 150% 0;
 }
+/* Pointer-driven shine: a soft light that follows the cursor across the letters */
+.wf-mark__shine {
+  background: radial-gradient(
+    circle 0.42em at var(--mx, 50%) var(--my, 50%),
+    rgb(255 255 255 / 0.85),
+    rgb(255 236 214 / 0.45) 35%,
+    rgb(255 222 189 / 0.12) 60%,
+    transparent 75%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: var(--shine, 0);
+  transition: opacity 0.5s ease;
+}
+/* With a pointer, the shine replaces the automatic sweep */
+.wf-mark[data-pointer] .wf-mark__sweep { display: none; }
+.wf-mark[data-pointer] .wf-mark__glow {
+  background: radial-gradient(circle 0.6em at var(--mx, 50%) var(--my, 50%), rgb(255 201 148 / 0.5), transparent 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: calc(0.35 + var(--shine, 0) * 0.65);
+  transition: opacity 0.5s ease;
+}
 @keyframes wf-sweep {
   0% { background-position: 150% 0; }
   55%, 100% { background-position: -50% 0; }
