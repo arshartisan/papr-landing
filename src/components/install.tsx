@@ -6,6 +6,7 @@ import { Apple, Check, Windows } from "./icons";
 import { Logo } from "./logo";
 import { SectionHead } from "./reveal";
 import { GlowButton } from "./glow-button";
+import { InstallFilm } from "./install-film";
 import { site } from "@/lib/site";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -45,6 +46,11 @@ export function Install({ cta = true, id = "install" }: { cta?: boolean; id?: st
             }
             sub="Papr is a direct download, not a store listing. Three steps on Windows or macOS, then every new tab is a notepad."
           />
+        </div>
+
+        {/* full walkthrough, macOS */}
+        <div className="mt-14">
+          <InstallFilm />
         </div>
 
         {/* progress rail */}
