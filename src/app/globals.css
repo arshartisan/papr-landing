@@ -346,6 +346,21 @@ body {
 .legal a:hover { text-decoration-color: var(--color-teal); }
 .legal strong { color: var(--color-ink); font-weight: 500; }
 
+/* 404: outlined digits trace themselves in, then the fill fades up */
+.nf-digits text {
+  stroke-dasharray: 2600;
+  stroke-dashoffset: 2600;
+  fill-opacity: 0;
+  animation:
+    nf-trace 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards,
+    nf-fill 1.2s ease 1.6s forwards;
+}
+@keyframes nf-trace { to { stroke-dashoffset: 0; } }
+@keyframes nf-fill { to { fill-opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .nf-digits text { animation: none; stroke-dashoffset: 0; fill-opacity: 1; }
+}
+
 /* Dot-matrix metrics */
 .dmm-dot {
   background: rgb(255 255 255 / 0.07);

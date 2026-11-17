@@ -18,3 +18,33 @@ export const nav = [
   { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
 ];
+
+/** Grouped site links, shared by the footer and the 404 page. */
+export const linkGroups: { title: string; links: { label: string; href: string; external?: boolean }[] }[] = [
+  {
+    title: "Product",
+    links: [
+      { label: "Features", href: "/#features" },
+      { label: "Shortcuts", href: "/#shortcuts" },
+      { label: "Install guide", href: "/#install" },
+      { label: "Pricing", href: "/#pricing" },
+      { label: "FAQ", href: "/#faq" },
+    ],
+  },
+  {
+    title: "Get Papr",
+    links: [
+      { label: `Buy Papr - $${site.price}`, href: site.checkoutUrl },
+      { label: "Re-download", href: "/portal" },
+      { label: "Contact", href: site.social.linkedin, external: true },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Sale", href: "/terms" },
+      { label: "Refund Policy", href: "/refunds" },
+    ],
+  },
+];
