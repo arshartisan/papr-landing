@@ -1,0 +1,29 @@
+/** Papr mark. `tile` renders the teal square from the brand file; otherwise just the glyph. */
+export function Logo({
+  className,
+  tile = true,
+  glyph = "#FFDEBD",
+}: {
+  className?: string;
+  tile?: boolean;
+  glyph?: string;
+}) {
+  return (
+    <svg viewBox="0 0 800 800" className={className} aria-hidden="true">
+      {tile && <rect width="800" height="800" rx="180" fill="#005148" />}
+      <path
+        d="M206.75 577.014V234.061C206.75 229.215 211.997 226.187 216.193 228.612L361.291 312.476V143.817C361.291 137.657 367.961 133.808 373.294 136.89L588.753 261.422C591.227 262.852 592.75 265.492 592.75 268.348V441.773C592.75 444.63 591.227 447.27 588.753 448.7L450.212 528.774C444.879 531.857 438.209 528.008 438.209 521.848V361.55C438.209 358.693 436.686 356.053 434.212 354.624L361.291 312.476V657.089C361.291 663.249 354.621 667.098 349.288 664.015L210.747 583.941C208.273 582.511 206.75 579.871 206.75 577.014Z"
+        fill={glyph}
+      />
+    </svg>
+  );
+}
+
+export function Wordmark({ className }: { className?: string }) {
+  return (
+    <span className={`inline-flex items-center gap-2 ${className ?? ""}`}>
+      <Logo className="size-6" />
+      <span className="text-[15px] font-semibold tracking-[-0.02em]">papr</span>
+    </span>
+  );
+}
