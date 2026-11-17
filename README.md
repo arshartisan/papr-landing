@@ -24,7 +24,7 @@ tax, receipts and delivers the download.
    | `POLAR_SERVER` | `sandbox` while testing, `production` when live |
    | `POLAR_ACCESS_TOKEN` | the token from step 2 (sandbox and production tokens differ) |
    | `POLAR_PRODUCT_ID` | the product id from step 1 |
-   | `POLAR_ORG_SLUG` | your org slug (used for the "Re-download" portal link) |
+   | `POLAR_ORG_ID` | your organization id (the site looks up its slug for the "Re-download" portal link) |
 
 4. Test a purchase with Stripe's test card `4242 4242 4242 4242` in the sandbox.
 5. To go live, recreate the product in production Polar, switch the env vars, redeploy.

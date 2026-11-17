@@ -8,7 +8,7 @@ import { hostedPortalUrl, polarClient, polarConfigured } from "@/lib/polar";
  * GET /portal                → Polar's hosted portal (sign in by email) for re-downloads.
  */
 export async function GET(req: NextRequest) {
-  const fallback = hostedPortalUrl() ?? new URL("/#pricing", req.url).toString();
+  const fallback = (await hostedPortalUrl()) ?? new URL("/#pricing", req.url).toString();
   const checkoutId = req.nextUrl.searchParams.get("checkout_id");
   if (!checkoutId || !polarConfigured) return NextResponse.redirect(fallback);
 
