@@ -62,7 +62,12 @@ export function Footer({ onDark = false }: { onDark?: boolean }) {
         <div className="relative z-10 mx-6 mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/8 pt-5 text-[12.5px] text-fog @md:mx-10">
           <span>© 2026 Papr. All rights reserved.</span>
           <span className="flex items-center gap-4">
-            <span>Made for people who think in text.</span>
+            <span className="inline-flex items-center gap-2">
+              Backed by
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/focaldive.svg" alt="" width={14} height={16} className="h-4 w-auto opacity-90" />
+              <span className="font-medium text-snow/85">FocalDive</span>
+            </span>
             <a
               href={site.social.linkedin}
               aria-label="LinkedIn"
