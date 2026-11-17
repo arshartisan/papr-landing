@@ -29,6 +29,17 @@ export function Footer({ onDark = false }: { onDark?: boolean }) {
                 </div>
               ))}
             </dl>
+            <a
+              href={site.social.linkedin}
+              aria-label="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/[0.03] text-mist transition-colors hover:border-white/25 hover:text-snow focus-visible:outline-2 focus-visible:outline-peach"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="size-4">
+                <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z" />
+              </svg>
+            </a>
           </div>
 
           {/* link columns */}
@@ -61,25 +72,23 @@ export function Footer({ onDark = false }: { onDark?: boolean }) {
 
         <div className="relative z-10 mx-6 mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/8 pt-5 text-[12.5px] text-fog @md:mx-10">
           <span>© 2026 Papr. All rights reserved.</span>
-          <span className="flex items-center gap-4">
-            <span className="inline-flex items-center gap-2">
-              Backed by
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/focaldive.svg" alt="" width={14} height={16} className="h-4 w-auto opacity-90" />
-              <span className="font-medium text-snow/85">FocalDive</span>
-            </span>
-            <a
-              href={site.social.linkedin}
-              aria-label="LinkedIn"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="grid size-8 place-items-center rounded-full border border-white/10 bg-white/[0.03] text-mist transition-colors hover:border-white/25 hover:text-snow focus-visible:outline-2 focus-visible:outline-peach"
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="size-3.5">
-                <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z" />
-              </svg>
-            </a>
-          </span>
+          <a
+            href="https://focaldive.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Backed by FocalDive"
+            className="group inline-flex items-center gap-2 rounded-full transition-colors hover:text-snow focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+          >
+            Backed by
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/focaldive.svg"
+              alt="FocalDive"
+              width={14}
+              height={16}
+              className="h-4 w-auto opacity-80 transition-opacity group-hover:opacity-100"
+            />
+          </a>
         </div>
 
         {/* giant wordmark, cropped by the panel edge */}

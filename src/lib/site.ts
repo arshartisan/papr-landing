@@ -6,6 +6,7 @@ export const site = {
   url: "https://papr-landing.vercel.app",
   // Polar checkout (see src/app/checkout/route.ts)
   checkoutUrl: "/checkout",
+  // Fallback only: the live price is read from Polar (src/lib/price.ts)
   price: 5,
   version: "1.5",
   social: { linkedin: "https://www.linkedin.com/in/muhammed-arshaq/" },
@@ -34,7 +35,7 @@ export const linkGroups: { title: string; links: { label: string; href: string; 
   {
     title: "Get Papr",
     links: [
-      { label: `Buy Papr - $${site.price}`, href: site.checkoutUrl },
+      { label: "Buy Papr", href: site.checkoutUrl },
       { label: "Re-download", href: "/portal" },
       { label: "Contact", href: site.social.linkedin, external: true },
     ],

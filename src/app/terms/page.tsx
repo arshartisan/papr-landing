@@ -3,12 +3,14 @@ import Link from "next/link";
 import { LegalPage } from "@/components/page-shell";
 import { legal } from "@/lib/legal";
 import { plan } from "@/lib/pricing";
+import { getPrice } from "@/lib/price";
 
 export const metadata: Metadata = { title: "Terms - Papr" };
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const price = await getPrice();
   return (
     <LegalPage
       active="terms"
@@ -21,7 +23,7 @@ export default function TermsPage() {
           title: "Purchase",
           body: (
             <p>
-              Papr costs a one-time payment of ${plan.price} USD (plus any applicable taxes). There is no subscription
+              Papr costs a one-time payment of {price.label} {price.currency.toUpperCase()} (plus any applicable taxes). There is no subscription
               and nothing renews. Orders are processed by <a href="https://polar.sh" {...ext}>Polar</a>, our merchant of
               record, which also handles payment, tax and invoicing. Polar&apos;s own{" "}
               <a href="https://polar.sh/legal/terms" {...ext}>terms</a> apply to the payment.

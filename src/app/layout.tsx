@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif, Inter, Source_Code_Pro } from "next/font/google";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { site } from "@/lib/site";
+import { getPrice } from "@/lib/price";
+import { PriceProvider } from "@/components/price-context";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
@@ -34,14 +36,17 @@ export const viewport: Viewport = {
   themeColor: "#031b18",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const price = await getPrice();
   return (
     <html
       lang="en"
       className={`${geist.variable} ${geistMono.variable} ${instrument.variable} ${inter.variable} ${sourceCode.variable} font-sans antialiased`}
     >
       <body>
-        <SmoothScroll>{children}</SmoothScroll>
+        <PriceProvider price={price}>
+          <SmoothScroll>{children}</SmoothScroll>
+        </PriceProvider>
       </body>
     </html>
   );

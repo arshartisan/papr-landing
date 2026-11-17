@@ -1,5 +1,7 @@
 "use client";
 
+import { usePrice } from "./price-context";
+import { formatPrice } from "@/lib/format-price";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import { Apple, Check, Windows } from "./icons";
@@ -33,6 +35,7 @@ function useSequence(n: number, ms: number, hold = 2200) {
 }
 
 export function Install({ cta = true, id = "install" }: { cta?: boolean; id?: string }) {
+  const price = usePrice();
   return (
     <section id={id} data-nav="light" className="border-t border-line bg-paper py-28 md:py-36">
       <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
@@ -53,10 +56,7 @@ export function Install({ cta = true, id = "install" }: { cta?: boolean; id?: st
           <InstallFilm />
         </div>
 
-        {/* progress rail */}
-        <Rail />
-
-        <ol className="mt-6 grid gap-3 md:grid-cols-3">
+        <ol className="mt-10 grid gap-3 md:grid-cols-3">
           <Step i={0} title="Buy once" body="Check out with Polar. Your download link appears the moment payment goes through.">
             <CheckoutArt />
           </Step>
@@ -81,7 +81,7 @@ export function Install({ cta = true, id = "install" }: { cta?: boolean; id?: st
 
         {cta && (
         <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-          <GlowButton href={site.checkoutUrl}>Get Papr - ${site.price}</GlowButton>
+          <GlowButton href={site.checkoutUrl}>Get Papr - {price.label}</GlowButton>
           <p className="text-[14px] text-ink-3">
             Stuck?{" "}
             <a
@@ -98,33 +98,6 @@ export function Install({ cta = true, id = "install" }: { cta?: boolean; id?: st
         )}
       </div>
     </section>
-  );
-}
-
-function Rail() {
-  return (
-    <div aria-hidden className="relative mt-14 hidden grid-cols-3 md:grid">
-      <div className="absolute top-1/2 right-[calc(100%/6)] left-[calc(100%/6)] h-px -translate-y-1/2 bg-line" />
-      <motion.div
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true, margin: "-15% 0px" }}
-        transition={{ duration: 1.4, ease, delay: 0.2 }}
-        className="absolute top-1/2 right-[calc(100%/6)] left-[calc(100%/6)] h-px origin-left -translate-y-1/2 bg-teal"
-      />
-      {[1, 2, 3].map((n, i) => (
-        <motion.span
-          key={n}
-          initial={{ backgroundColor: "#ffffff", color: "#77817e" }}
-          whileInView={{ backgroundColor: "#005148", color: "#ffdebd" }}
-          viewport={{ once: true, margin: "-15% 0px" }}
-          transition={{ duration: 0.4, delay: 0.2 + i * 0.6 }}
-          className="relative mx-auto grid size-8 place-items-center rounded-full border border-line font-mono text-[12px]"
-        >
-          {n}
-        </motion.span>
-      ))}
-    </div>
   );
 }
 
@@ -151,8 +124,12 @@ function Step({
     >
       <div className="relative h-[200px] overflow-hidden rounded-[14px] bg-paper">{children}</div>
       <div className="flex flex-1 flex-col px-3 pt-5 pb-3">
-        <span className="font-mono text-[11px] tracking-[0.12em] text-teal md:hidden">STEP {i + 1}</span>
-        <h3 className="text-[19px] font-medium tracking-[-0.025em] max-md:mt-1">{title}</h3>
+        <div className="flex items-center gap-2.5">
+          <span className="grid size-6 flex-none place-items-center rounded-full bg-teal font-mono text-[11px] text-peach">
+            {i + 1}
+          </span>
+          <h3 className="text-[19px] font-medium tracking-[-0.025em]">{title}</h3>
+        </div>
         <p className="mt-1.5 text-[14.5px] leading-relaxed text-pretty text-ink-2">{body}</p>
         {footer && <div className="mt-auto pt-5">{footer}</div>}
       </div>
@@ -163,6 +140,7 @@ function Step({
 /* ---------------- step art ---------------- */
 
 function CheckoutArt() {
+  const price = usePrice();
   const [ref, s] = useSequence(3, 1300); // 0 pay · 1 paid · 2 download ready
   return (
     <div ref={ref} className="absolute inset-0 flex items-center justify-center p-5">
@@ -173,7 +151,7 @@ function CheckoutArt() {
             <div className="text-[13px] font-medium">Papr</div>
             <div className="text-[11px] text-ink-3">One-time purchase</div>
           </div>
-          <div className="text-[14px] font-medium tabular-nums">${site.price}.00</div>
+          <div className="text-[14px] font-medium tabular-nums">{formatPrice(price.amount, price.currency, true)}</div>
         </div>
         <div className="mt-3.5 h-9">
           <AnimatePresence mode="wait" initial={false}>
@@ -185,7 +163,7 @@ function CheckoutArt() {
                 exit={{ opacity: 0 }}
                 className="grid h-9 place-items-center rounded-lg bg-ink text-[12.5px] font-medium text-white"
               >
-                Pay ${site.price}
+                Pay {price.label}
               </motion.div>
             ) : (
               <motion.div

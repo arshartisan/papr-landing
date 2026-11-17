@@ -2,14 +2,10 @@
  * Papr is sold as a one-time purchase through Polar: pay once, download the
  * extension, keep it forever. The price includes 6 months of updates.
  *
- * The price shown here must match the Polar product (POLAR_PRODUCT_ID).
- * Change it in src/lib/site.ts.
+ * The price itself is read live from the Polar product (src/lib/price.ts).
  */
-import { site } from "./site";
-
 export const plan = {
   name: "Papr",
-  price: site.price,
   blurb: "Every feature. One payment. Yours to keep.",
   updatesMonths: 6,
   cta: "Buy & download",

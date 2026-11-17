@@ -1,5 +1,7 @@
 "use client";
 
+import { usePrice } from "./price-context";
+import { formatPrice } from "@/lib/format-price";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "motion/react";
 import type { CSSProperties, ReactNode } from "react";
@@ -455,6 +457,7 @@ function Browser({ t, dim }: { t: number; dim: boolean }) {
 }
 
 function SiteView() {
+  const price = usePrice();
   return (
     <div className="absolute inset-0 bg-[#031b18] px-20 pt-[70px] text-[#f3eee7]">
       <div className="absolute top-5 left-20 flex items-center gap-2 text-[15px] font-semibold">
@@ -466,7 +469,7 @@ function SiteView() {
         <span className="font-normal text-[#9db1ac]">a blank page.</span>
       </div>
       <div className="absolute top-[210px] left-20 grid h-10 w-[150px] place-items-center rounded-full bg-[linear-gradient(180deg,#0b6d5f,#03463e)] text-[14px] font-semibold text-white shadow-[inset_0_-1px_0_rgb(150_255_222/0.6),0_8px_20px_-8px_rgb(20_190_155/0.7)]">
-        Get Papr - $5 ↗
+        Get Papr - {price.label} ↗
       </div>
       <div className="absolute right-16 bottom-0 h-[220px] w-[470px] overflow-hidden rounded-t-xl border border-white/10 bg-[#161616] p-6">
         <div className="h-4 w-40 rounded bg-white/80" />
@@ -484,6 +487,8 @@ function SiteView() {
 }
 
 function CheckoutView({ t }: { t: number }) {
+  const price = usePrice();
+  const full = formatPrice(price.amount, price.currency, true);
   const paid = t >= 2950;
   return (
     <div className="absolute inset-0 bg-[#f4f5f7]">
@@ -494,7 +499,7 @@ function CheckoutView({ t }: { t: number }) {
             <div className="text-[15px] font-semibold">Papr</div>
             <div className="text-[12px] text-[#6b7280]">One-time purchase</div>
           </div>
-          <div className="text-[18px] font-semibold">$5.00</div>
+          <div className="text-[18px] font-semibold">{full}</div>
         </div>
         <div className="mt-5 space-y-2.5 text-[13px]">
           <div className="rounded-lg border border-[#e5e7eb] px-3 py-2 text-[#374151]">you@example.com</div>
@@ -508,7 +513,7 @@ function CheckoutView({ t }: { t: number }) {
             paid ? "bg-[#16a34a]" : "bg-[#111]"
           }`}
         >
-          {paid ? "✓ Paid" : t >= 2700 ? "Processing…" : "Pay $5.00"}
+          {paid ? "✓ Paid" : t >= 2700 ? "Processing…" : `Pay ${full}`}
         </div>
       </div>
       <div className="absolute bottom-6 w-full text-center text-[12px] text-[#9ca3af]">Secure checkout by Polar</div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePrice } from "./price-context";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
@@ -16,6 +17,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
  */
 export function Nav() {
   const { scrollY } = useScroll();
+  const price = usePrice();
   const home = usePathname() === "/";
   const link = (hash: string) => (home ? hash : `/${hash}`);
   const [active, setActive] = useState<string>("");
@@ -86,7 +88,7 @@ export function Nav() {
 
           {/* CTA */}
           <GlowButton href={site.checkoutUrl} size="sm">
-            Get Papr - ${site.price}
+            Get Papr - {price.label}
           </GlowButton>
         </div>
 

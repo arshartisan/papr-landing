@@ -1,5 +1,6 @@
 "use client";
 
+import { usePrice } from "./price-context";
 import { motion, type Variants } from "motion/react";
 import { AppMockup } from "./app-mockup";
 import { Apple, ArrowRight, Windows } from "./icons";
@@ -18,6 +19,7 @@ const item: Variants = {
 };
 
 export function Hero() {
+  const price = usePrice();
   return (
     <section id="top" data-nav="dark" className="relative isolate overflow-hidden bg-night text-snow">
       <div className="grid-fade pointer-events-none absolute inset-0 -z-10" />
@@ -64,7 +66,7 @@ export function Hero() {
           animate="show"
           className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4"
         >
-          <GlowButton href={site.checkoutUrl}>Get Papr - ${site.price}</GlowButton>
+          <GlowButton href={site.checkoutUrl}>Get Papr - {price.label}</GlowButton>
           <a
             href="#features"
             className="group inline-flex items-center gap-1.5 text-[14.5px] font-medium text-snow/85 hover:text-snow focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"

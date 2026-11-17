@@ -1,5 +1,7 @@
 "use client";
 
+import { usePrice } from "./price-context";
+import { splitPrice } from "@/lib/format-price";
 import { motion } from "motion/react";
 import { plan } from "@/lib/pricing";
 import { site } from "@/lib/site";
@@ -9,6 +11,8 @@ import { SectionHead } from "./reveal";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Pricing() {
+  const price = usePrice();
+  const { symbol, value } = splitPrice(price.label);
   return (
     <section id="pricing" data-nav="dark" className="relative isolate overflow-hidden bg-night py-28 text-snow md:py-36">
       <div className="pointer-events-none absolute top-[-180px] left-1/2 -z-10 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-[rgb(255_201_148/0.13)] blur-[110px]" />
@@ -25,7 +29,7 @@ export function Pricing() {
                 One price. <span className="serif-accent text-mist">Yours to keep.</span>
               </>
             }
-            sub={`Pay $${plan.price} once and get every feature. No subscription, no account, no tiers.`}
+            sub={`Pay ${price.label} once and get every feature. No subscription, no account, no tiers.`}
           />
         </div>
 
@@ -50,9 +54,9 @@ export function Pricing() {
             <p className="mt-1.5 text-[14px] text-mist">{plan.blurb}</p>
 
             <div className="mt-10 flex items-end gap-2">
-              <span className="mb-[0.55rem] text-[22px] text-mist">$</span>
-              <span className="text-[4rem] leading-none font-medium tracking-[-0.05em] tabular-nums">{plan.price}</span>
-              <span className="mb-2 text-[14px] text-fog">USD</span>
+              <span className="mb-[0.55rem] text-[22px] text-mist">{symbol}</span>
+              <span className="text-[4rem] leading-none font-medium tracking-[-0.05em] tabular-nums">{value}</span>
+              <span className="mb-2 text-[14px] text-fog">{price.currency.toUpperCase()}</span>
             </div>
             <p className="mt-2 text-[13px] text-fog">One payment. Keep it forever.</p>
 
