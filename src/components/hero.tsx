@@ -1,6 +1,6 @@
 "use client";
 
-import { usePrice } from "./price-context";
+import { useDeal, usePrice } from "./price-context";
 import { motion, type Variants } from "motion/react";
 import { AppMockup } from "./app-mockup";
 import { Apple, ArrowRight, Windows } from "./icons";
@@ -20,23 +20,41 @@ const item: Variants = {
 
 export function Hero() {
   const price = usePrice();
+  const deal = useDeal();
   return (
     <section id="top" data-nav="dark" className="relative isolate overflow-hidden bg-night text-snow">
       <div className="grid-fade pointer-events-none absolute inset-0 -z-10" />
 
       <div className="mx-auto max-w-[1180px] px-4 pt-36 sm:px-8 md:pt-44">
-        <motion.a
-          href="#features"
-          custom={0}
-          variants={item}
-          initial="hidden"
-          animate="show"
-          className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] py-1 pr-3 pl-1 text-[12.5px] text-mist backdrop-blur transition-colors hover:border-white/20 hover:text-snow"
-        >
-          <span className="rounded-full bg-peach/15 px-2 py-0.5 font-medium text-peach">v{site.version}</span>
-          Up to four notes, side by side
-          <ArrowRight className="size-3.5 text-peach transition-transform group-hover:translate-x-0.5" />
-        </motion.a>
+        {deal ? (
+          <motion.a
+            href="#pricing"
+            custom={0}
+            variants={item}
+            initial="hidden"
+            animate="show"
+            className="group inline-flex items-center gap-2 rounded-full border border-peach/30 bg-peach/[0.07] py-1 pr-3 pl-1 text-[12.5px] text-mist backdrop-blur transition-colors hover:border-peach/50 hover:text-snow"
+          >
+            <span className="rounded-full bg-peach px-2 py-0.5 font-semibold text-ink">{deal.name}</span>
+            <span>
+              <span className="text-snow">{deal.label}</span> until {deal.lastDay}, then {price.label}
+            </span>
+            <ArrowRight className="size-3.5 text-peach transition-transform group-hover:translate-x-0.5" />
+          </motion.a>
+        ) : (
+          <motion.a
+            href="#features"
+            custom={0}
+            variants={item}
+            initial="hidden"
+            animate="show"
+            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] py-1 pr-3 pl-1 text-[12.5px] text-mist backdrop-blur transition-colors hover:border-white/20 hover:text-snow"
+          >
+            <span className="rounded-full bg-peach/15 px-2 py-0.5 font-medium text-peach">v{site.version}</span>
+            Up to four notes, side by side
+            <ArrowRight className="size-3.5 text-peach transition-transform group-hover:translate-x-0.5" />
+          </motion.a>
+        )}
 
         <motion.h1
           custom={1}
@@ -66,7 +84,7 @@ export function Hero() {
           animate="show"
           className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4"
         >
-          <GlowButton href={site.checkoutUrl}>Get Papr - {price.label}</GlowButton>
+          <GlowButton href={site.checkoutUrl}>Get Papr - {deal ? deal.label : price.label}</GlowButton>
           <a
             href="#features"
             className="group inline-flex items-center gap-1.5 text-[14.5px] font-medium text-snow/85 hover:text-snow focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"

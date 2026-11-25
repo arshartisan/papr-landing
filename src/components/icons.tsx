@@ -20,10 +20,10 @@ export const Apple = ({ className }: P) => (
   </svg>
 );
 export const Polar = ({ className }: P) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden className={className}>
-    <circle cx="12" cy="12" r="9.75" />
-    <ellipse cx="12" cy="12" rx="4.6" ry="9.75" />
-    <path d="M12 2.25v19.5" />
+  // Polar's current mark: a full-height bar with three spokes to the left and an open arc to the right.
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} aria-hidden className={className}>
+    <path d="M10 1v22M10 12H1.5M10 12 3.5 5.5M10 12l-6.5 6.5" />
+    <path d="M20.5 2.5C16.5 6 15 9 15 12s1.5 6 5.5 9.5" />
   </svg>
 );
 export const ArrowUpRight =({ className }: P) => (

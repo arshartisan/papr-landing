@@ -7,7 +7,7 @@ export const site = {
   // Polar checkout (see src/app/checkout/route.ts)
   checkoutUrl: "/checkout",
   // Fallback only: the live price is read from Polar (src/lib/price.ts)
-  price: 5,
+  price: 7,
   version: "1.5",
   social: { linkedin: "https://www.linkedin.com/in/muhammed-arshaq/" },
 };

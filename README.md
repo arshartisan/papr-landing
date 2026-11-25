@@ -10,11 +10,11 @@ npm run dev
 
 ## Selling with Polar
 
-Papr is sold as a **one-time $5 purchase**. Polar is the merchant of record: it runs checkout,
+Papr is sold as a **one-time $7 purchase**. Polar is the merchant of record: it runs checkout,
 tax, receipts and delivers the download.
 
 1. In Polar (start in the **sandbox**: https://sandbox.polar.sh), create a product:
-   - Name `Papr`, **one-time** price **$5**.
+   - Name `Papr`, **one-time** price **$7**.
    - Add a **File Downloads** benefit and upload the extension zip (`papr.zip`, the `extension/` folder).
 2. Settings → Developers → create an **organization access token**.
 3. Fill `.env.local`:
@@ -38,6 +38,18 @@ tax, receipts and delivers the download.
 | `/portal?checkout_id=…` | Opens a signed-in Polar customer portal for that buyer, where the download lives. |
 | `/portal` | Polar's hosted portal (sign in by email) for re-downloads. |
 | `/privacy`, `/terms`, `/refunds` | Legal pages. **Templates — review before launch** (`src/lib/legal.ts` holds the date and refund window). |
+
+### Running a sale
+
+`src/lib/deal.ts` holds the current sale (code, sale price, end time, price afterwards).
+While it's live the site shows the sale price (worked out from the Polar product price and the
+discount code, so it always matches checkout), a countdown on the pricing card, a sale pill in the
+hero and a sale share image, and `/checkout` applies the code automatically. If the discount can't
+be read from Polar (the token needs `products:read` and `discounts:read`), no sale price is shown. If Polar rejects the code, checkout continues at the regular price. Everything turns
+off by itself at `endsAt` (pages refresh every minute).
+
+The discount itself is a Polar discount code on the product. Keep its "Ends at" equal to `endsAt`.
+The price shown as "then …" is the product's regular price in Polar.
 
 ### Shipping an update
 

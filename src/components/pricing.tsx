@@ -1,10 +1,11 @@
 "use client";
 
-import { usePrice } from "./price-context";
+import { Countdown, useDeal, usePrice } from "./price-context";
 import { splitPrice } from "@/lib/format-price";
 import { motion } from "motion/react";
 import { plan } from "@/lib/pricing";
 import { site } from "@/lib/site";
+import { legal } from "@/lib/legal";
 import { ArrowUpRight, Check, Polar } from "./icons";
 import { SectionHead } from "./reveal";
 
@@ -12,7 +13,8 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Pricing() {
   const price = usePrice();
-  const { symbol, value } = splitPrice(price.label);
+  const deal = useDeal();
+  const { symbol, value } = splitPrice(deal ? deal.label : price.label);
   return (
     <section id="pricing" data-nav="dark" className="relative isolate overflow-hidden bg-night py-28 text-snow md:py-36">
       <div className="pointer-events-none absolute top-[-180px] left-1/2 -z-10 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-[rgb(255_201_148/0.13)] blur-[110px]" />
@@ -29,7 +31,11 @@ export function Pricing() {
                 One price. <span className="serif-accent text-mist">Yours to keep.</span>
               </>
             }
-            sub={`Pay ${price.label} once and get every feature. No subscription, no account, no tiers.`}
+            sub={
+              deal
+                ? `${deal.name}: pay ${deal.label} once and get every feature. The price goes to ${price.label} after ${deal.lastDay}.`
+                : `Pay ${price.label} once and get every feature. No subscription, no account, no tiers.`
+            }
           />
         </div>
 
@@ -47,9 +53,13 @@ export function Pricing() {
           <div className="relative flex flex-col p-8 md:p-10">
             <div className="flex items-center justify-between">
               <h3 className="text-[17px] font-medium tracking-[-0.02em]">{plan.name}</h3>
-              <span className="rounded-full border border-peach/30 bg-peach/10 px-2.5 py-1 text-[11px] font-medium text-peach">
-                One-time
-              </span>
+              {deal ? (
+                <span className="rounded-full bg-peach px-2.5 py-1 text-[11px] font-semibold text-ink">{deal.name}</span>
+              ) : (
+                <span className="rounded-full border border-peach/30 bg-peach/10 px-2.5 py-1 text-[11px] font-medium text-peach">
+                  One-time
+                </span>
+              )}
             </div>
             <p className="mt-1.5 text-[14px] text-mist">{plan.blurb}</p>
 
@@ -58,7 +68,17 @@ export function Pricing() {
               <span className="text-[4rem] leading-none font-medium tracking-[-0.05em] tabular-nums">{value}</span>
               <span className="mb-2 text-[14px] text-fog">{price.currency.toUpperCase()}</span>
             </div>
-            <p className="mt-2 text-[13px] text-fog">One payment. Keep it forever.</p>
+            {deal ? (
+              <p className="mt-2 text-[13px] text-mist">
+                Ends {deal.lastDay}
+                <Countdown endsAt={deal.endsAt} className="ml-1.5 font-mono text-[12px] text-peach" />
+                <span className="block text-fog">
+                  One payment, yours forever. {price.label} after that.
+                </span>
+              </p>
+            ) : (
+              <p className="mt-2 text-[13px] text-fog">One payment. Keep it forever.</p>
+            )}
 
             <a
               href={site.checkoutUrl}
@@ -69,7 +89,7 @@ export function Pricing() {
               <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
             <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-[12.5px] text-fog">
-              Instant download · Secure checkout by
+              {legal.refundDays}-day refund · Secure checkout by
               <span className="inline-flex items-center gap-1 text-snow/80">
                 <Polar className="size-3.5" />
                 Polar
@@ -101,7 +121,7 @@ export function Pricing() {
         </motion.article>
 
         <p className="mt-10 text-center text-[13px] text-fog">
-          Price in USD. Taxes calculated at checkout. After {plan.updatesMonths} months your copy keeps working; you just
+          Instant download with a 2-minute install guide. Price in USD. Taxes calculated at checkout. After {plan.updatesMonths} months your copy keeps working; you just
           stop receiving new versions.
         </p>
       </div>
