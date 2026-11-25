@@ -10,7 +10,7 @@ export const deal = {
   name: "Black Friday",
   code: "BLACKFRIDAY",
   /** Exclusive end: the deal is live until this instant. */
-  endsAt: "2026-12-01T00:00:00Z",
+  endsAt: "2026-11-30T18:30:00Z", // = Dec 1 00:00 in Sri Lanka (UTC+5:30), same as Polar
   /** Human label for the last day of the deal. */
   lastDay: "Mon Nov 30",
   /** Only used when Polar isn't configured (local preview). The real price comes from Polar. */

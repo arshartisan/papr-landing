@@ -18,7 +18,10 @@ export type Price = { amount: number; currency: string; label: string; deal?: De
 type Base = Omit<Price, "deal">;
 
 /** How much the sale code takes off, as Polar will apply it. */
-type Off = { kind: "fixed"; amount: number; currency: string } | { kind: "percent"; basisPoints: number };
+type Off = ({ kind: "fixed"; amount: number; currency: string } | { kind: "percent"; basisPoints: number }) & {
+  /** When Polar stops accepting the code, if set. */
+  endsAt: string | null;
+};
 
 /**
  * Look the sale code up in Polar so the site shows exactly what checkout will charge.
@@ -40,8 +43,8 @@ async function polarDiscount(code: string, now: number): Promise<Off | null> {
     if (d.max_redemptions != null && d.redemptions_count >= d.max_redemptions) return skip("it's used up");
     const pid = process.env.POLAR_PRODUCT_ID;
     if (d.products.length > 0 && !d.products.some((p) => p.id === pid)) return skip("it isn't valid for this product");
-    if ("basis_points" in d) return { kind: "percent", basisPoints: d.basis_points };
-    if ("amount" in d) return { kind: "fixed", amount: d.amount / 100, currency: d.currency };
+    if ("basis_points" in d) return { kind: "percent", basisPoints: d.basis_points, endsAt: d.ends_at };
+    if ("amount" in d) return { kind: "fixed", amount: d.amount / 100, currency: d.currency, endsAt: d.ends_at };
     return null;
   } catch (e) {
     console.warn("[papr] Polar discount lookup failed, not showing the sale:", (e as Error)?.message);
@@ -55,6 +58,7 @@ async function withDeal(price: Base): Promise<Price> {
   if (!isDealLive(now)) return price;
 
   let amount: number;
+  let endsAt = deal.endsAt;
   if (polarConfigured) {
     const off = await polarDiscount(deal.code, now);
     if (!off) return price;
@@ -64,6 +68,8 @@ async function withDeal(price: Base): Promise<Price> {
         ? price.amount - off.amount
         : price.amount * (1 - off.basisPoints / 10_000);
     amount = Math.round(amount * 100) / 100;
+    // Count down to whichever comes first: Polar's end for the code, or the configured end.
+    if (off.endsAt && Date.parse(off.endsAt) < Date.parse(endsAt)) endsAt = off.endsAt;
   } else {
     // Local preview without Polar: use the configured preview price.
     amount = deal.previewPrice;
@@ -77,7 +83,7 @@ async function withDeal(price: Base): Promise<Price> {
       code: deal.code,
       amount,
       label: formatPrice(amount, price.currency),
-      endsAt: deal.endsAt,
+      endsAt,
       lastDay: deal.lastDay,
     },
   };
