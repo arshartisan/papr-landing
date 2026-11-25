@@ -27,14 +27,19 @@ type Off = { kind: "fixed"; amount: number; currency: string } | { kind: "percen
  */
 async function polarDiscount(code: string, now: number): Promise<Off | null> {
   try {
-    const { items } = await polarClient().discounts.list({ query: code, limit: 10 });
+    // Polar's `query` filter matches discount names, not codes, so list and match the code here.
+    const { items } = await polarClient().discounts.list({ limit: 100 });
     const d = items.find((x) => x.code?.toUpperCase() === code.toUpperCase());
-    if (!d) return null;
-    if (d.starts_at && Date.parse(d.starts_at) > now) return null;
-    if (d.ends_at && Date.parse(d.ends_at) <= now) return null;
-    if (d.max_redemptions != null && d.redemptions_count >= d.max_redemptions) return null;
+    const skip = (why: string) => {
+      console.warn(`[papr] not showing the "${code}" sale: ${why}`);
+      return null;
+    };
+    if (!d) return skip("no discount with that code in Polar");
+    if (d.starts_at && Date.parse(d.starts_at) > now) return skip(`it starts at ${d.starts_at}`);
+    if (d.ends_at && Date.parse(d.ends_at) <= now) return skip(`it ended at ${d.ends_at}`);
+    if (d.max_redemptions != null && d.redemptions_count >= d.max_redemptions) return skip("it's used up");
     const pid = process.env.POLAR_PRODUCT_ID;
-    if (d.products.length > 0 && !d.products.some((p) => p.id === pid)) return null;
+    if (d.products.length > 0 && !d.products.some((p) => p.id === pid)) return skip("it isn't valid for this product");
     if ("basis_points" in d) return { kind: "percent", basisPoints: d.basis_points };
     if ("amount" in d) return { kind: "fixed", amount: d.amount / 100, currency: d.currency };
     return null;
